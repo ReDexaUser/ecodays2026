@@ -1,0 +1,26 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import { SITE } from "../data/config";
+---
+
+<BaseLayout title={`404 - ${SITE.title}`}>
+  <div class="min-h-screen flex flex-col bg-gradient-to-b from-surface to-white">
+    <Navbar />
+    <main class="flex-1 flex items-center justify-center">
+      <div class="text-center px-4">
+        <h1 class="text-9xl font-bold text-primary/20">404</h1>
+        <p class="mt-4 text-xl text-gray-600">Halaman tidak ditemukan</p>
+        <p class="mt-2 text-gray-400">Halaman yang kamu cari mungkin telah dipindahkan atau dihapus.</p>
+        <a
+          href="/"
+          class="mt-8 inline-flex items-center gap-2 bg-primary text-white font-semibold px-6 py-3 rounded-lg hover:bg-primary-light transition-colors"
+        >
+          Kembali ke Beranda
+        </a>
+      </div>
+    </main>
+    <Footer />
+  </div>
+</BaseLayout>
