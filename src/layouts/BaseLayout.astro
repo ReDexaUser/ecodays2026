@@ -1,0 +1,101 @@
+---
+import "../styles/global.css";
+import { SITE } from "../data/config";
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = SITE.title, description = SITE.description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+    <title>{title}</title>
+  </head>
+  <body class="bg-white text-text font-['Inter',sans-serif]">
+    <slot />
+    <script>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".fade-in-up").forEach((el) => observer.observe(el));
+      });
+
+      document.querySelectorAll("[data-parallax-speed]").forEach((el) => {
+        el.classList.add("parallax");
+      });
+
+      const backToTop = document.getElementById("back-to-top");
+
+      window.addEventListener("scroll", () => {
+        const scrollY = window.scrollY;
+        if (backToTop) {
+          backToTop.classList.toggle("opacity-100", scrollY > 300);
+          backToTop.classList.toggle("opacity-0", scrollY <= 300);
+          backToTop.classList.toggle("pointer-events-auto", scrollY > 300);
+          backToTop.classList.toggle("pointer-events-none", scrollY <= 300);
+        }
+        document.querySelectorAll("[data-parallax-speed]").forEach((el) => {
+          const speed = parseFloat(el.getAttribute("data-parallax-speed") || "0");
+          (el as HTMLElement).style.transform = `translateY(${-scrollY * speed}px)`;
+        });
+      });
+
+      if (backToTop) {
+        backToTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+      }
+
+      document.querySelectorAll("[data-tilt]").forEach((el) => {
+        const card = el as HTMLElement;
+        const intensityAttr = card.getAttribute("data-tilt");
+        const intensity = intensityAttr && intensityAttr !== "" ? parseFloat(intensityAttr) : 3;
+
+        card.addEventListener("mousemove", (e: MouseEvent) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotateX = ((y - centerY) / centerY) * -intensity;
+          const rotateY = ((x - centerX) / centerX) * intensity;
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+        card.addEventListener("mouseleave", () => {
+          card.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg)";
+        });
+      });
+    </script>
+    <button
+      id="back-to-top"
+      class="fixed bottom-6 right-6 z-40 w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center shadow-lg hover:bg-primary-light transition-all opacity-0 pointer-events-none"
+      aria-label="Kembali ke atas"
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+      </svg>
+    </button>
+  </body>
+</html>
