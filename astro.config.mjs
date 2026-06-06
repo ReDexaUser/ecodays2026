@@ -3,7 +3,8 @@ import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-  site: "https://ecodays2026.com",
+  site: "https://redexauser.github.io",
+  base: "/ecodays2026",
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],
