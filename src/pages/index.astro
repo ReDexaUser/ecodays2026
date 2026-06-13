@@ -2,7 +2,6 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Navbar from "../components/Navbar.astro";
 import Hero from "../components/Hero.astro";
-import Countdown from "../components/Countdown.astro";
 import About from "../components/About.astro";
 import Timeline from "../components/Timeline.astro";
 import Lomba from "../components/Lomba.astro";
@@ -15,21 +14,11 @@ import Footer from "../components/Footer.astro";
 <BaseLayout>
   <Navbar />
   <Hero />
-  <section class="py-16 bg-surface">
-    <div class="max-w-6xl mx-auto px-4">
-      <p class="text-center text-sm text-gray-500 uppercase tracking-widest mb-6">
-        Menuju ECODAYS 2026
-      </p>
-      <div class="fade-in-up">
-        <Countdown />
-      </div>
-    </div>
-  </section>
-  <div class="fade-in-up"><About /></div>
-  <div class="fade-in-up"><Timeline /></div>
-  <div class="fade-in-up"><Lomba /></div>
-  <div class="fade-in-up"><Seminar /></div>
-  <div class="fade-in-up"><Gallery /></div>
-  <div class="fade-in-up"><Contact /></div>
+  <About />
+  <Timeline />
+  <Lomba />
+  <Seminar />
+  <Gallery />
+  <Contact />
   <Footer />
 </BaseLayout>
