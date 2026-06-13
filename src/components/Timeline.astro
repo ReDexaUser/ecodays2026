@@ -2,24 +2,24 @@
 import { TIMELINE } from "../data/config";
 ---
 
-<section id="timeline" class="py-20 bg-surface">
+<section id="timeline" class="py-20 bg-surface relative overflow-hidden">
   <div class="max-w-6xl mx-auto px-4">
-    <h2 class="text-3xl md:text-4xl font-bold text-primary text-center">
+    <h2 class="text-3xl md:text-4xl font-bold text-primary text-center fade-in-up">
       Timeline
     </h2>
 
     <div class="mt-16 hidden md:block">
       <div class="relative">
-        <div class="absolute top-2 left-0 right-0 h-0.5 bg-primary/20" />
+        <div class="absolute top-2 left-0 right-0 h-0.5" style="background: linear-gradient(to right, transparent, rgba(246,166,35,0.4) 15%, rgba(246,166,35,0.4) 85%, transparent)"></div>
 
-        <div class="grid grid-cols-4 gap-6 relative">
+        <div class={`grid grid-cols-3 gap-6 relative`}>
           {TIMELINE.map((item, i) => (
-            <div class="flex flex-col items-center">
-              <div class="w-4 h-4 rounded-full bg-primary border-4 border-surface relative z-10 shrink-0 dot-pop" style={`animation-delay: ${i * 0.15}s`} />
-              <div class="w-0.5 h-6 bg-primary/20" />
-              <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 w-full">
-                <p class="text-primary font-bold text-sm">{item.date}</p>
-                <p class="mt-1 text-sm text-gray-600">{item.label}</p>
+            <div class="flex flex-col items-center fade-in-up" style={`transition-delay: ${i * 120}ms`}>
+              <div class="w-4 h-4 rounded-full bg-accent shadow-[0_0_12px_rgba(246,166,35,0.4)] relative z-10 shrink-0 ring-2 ring-accent/20" />
+              <div class="w-0.5 h-5 bg-accent/30" />
+              <div class="glass rounded-2xl p-5 w-full hover:-translate-y-1 transition-all duration-300 border-l-2 border-accent">
+                <p class="text-accent font-bold text-sm">{item.date}</p>
+                <p class="mt-1 text-sm text-text/60">{item.label}</p>
               </div>
             </div>
           ))}
@@ -27,19 +27,26 @@ import { TIMELINE } from "../data/config";
       </div>
     </div>
 
-    <div class="mt-12 md:hidden space-y-6">
+    <div class="mt-12 md:hidden space-y-4">
       {TIMELINE.map((item, i) => (
-        <div class="flex gap-4 items-start">
-          <div class="flex flex-col items-center">
-            <div class="w-3 h-3 rounded-full bg-primary shrink-0 mt-1.5 dot-pop" style={`animation-delay: ${i * 0.15}s`} />
-            <div class="w-0.5 flex-1 bg-primary/20" />
+        <div class="flex gap-4 items-start fade-in-up" style={`transition-delay: ${i * 120}ms`}>
+          <div class="flex flex-col items-center pt-1">
+            <div class="w-3.5 h-3.5 rounded-full bg-accent shadow-[0_0_8px_rgba(246,166,35,0.4)] ring-2 ring-accent/20 shrink-0" />
+            {i < TIMELINE.length - 1 && (
+              <div class="w-0.5 flex-1 min-h-[1.5rem]" style="background: linear-gradient(to bottom, rgba(246,166,35,0.4), rgba(246,166,35,0.1))"></div>
+            )}
           </div>
-          <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex-1">
+          <div class="glass rounded-2xl p-4 flex-1 border-l-2 border-accent">
             <p class="text-primary font-bold text-sm">{item.date}</p>
-            <p class="mt-1 text-sm text-gray-600">{item.label}</p>
+            <p class="mt-1 text-sm text-text/60">{item.label}</p>
           </div>
         </div>
       ))}
     </div>
+  </div>
+  <div class="absolute bottom-0 left-0 right-0 overflow-hidden leading-0 pointer-events-none" style="transform: translateY(1px)">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" class="w-full h-10 md:h-14">
+      <path d="M0,28 C240,56 480,0 720,28 C960,56 1200,0 1440,28 L1440,60 L0,60 Z" fill="#0D4720"/>
+    </svg>
   </div>
 </section>
