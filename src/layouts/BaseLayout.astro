@@ -19,13 +19,13 @@ const { title = SITE.title, description = SITE.description } = Astro.props;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}/favicon.ico`} />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}/favicon.png`} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
     <title>{title}</title>
   </head>
-  <body class="bg-white text-text font-['Inter',sans-serif]">
+  <body class="bg-bg text-text font-['Inter',sans-serif]">
     <slot />
     <script>
       const observer = new IntersectionObserver(
@@ -90,11 +90,11 @@ const { title = SITE.title, description = SITE.description } = Astro.props;
     </script>
     <button
       id="back-to-top"
-      class="fixed bottom-6 right-6 z-40 w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center shadow-lg hover:bg-primary-light transition-all opacity-0 pointer-events-none"
+      class="fixed bottom-6 right-6 z-40 w-11 h-11 bg-accent text-white rounded-full flex items-center justify-center shadow-lg hover:bg-accent/80 transition-all duration-300 opacity-0 pointer-events-none hover:scale-110 active:scale-95"
       aria-label="Kembali ke atas"
     >
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
       </svg>
     </button>
   </body>
