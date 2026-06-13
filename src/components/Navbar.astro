@@ -1,19 +1,23 @@
 ---
 import { NAV } from "../data/config";
+
+const { current } = Astro.props;
+const isSubpage = !!current;
+const base = import.meta.env.BASE_URL;
 ---
 
-<nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100">
+<nav data-subpage={isSubpage ? "true" : "false"} class="fixed top-0 left-0 right-0 z-50 bg-bg/90 backdrop-blur-lg border-b border-white/5">
   <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-    <a href="#" class="text-xl font-bold text-primary tracking-tight">ECODAYS</a>
+    <a href={isSubpage ? base : "#"} class="text-xl font-bold text-primary tracking-tight hover:text-accent transition-colors">ECODAYS</a>
 
     <div class="hidden md:flex items-center gap-8">
-      <ul class="flex gap-6">
+      <ul class="flex gap-1">
         {NAV.map((item) => (
           <li>
             <a
               id={`nav-${item.href.replace("#", "")}`}
-              href={item.href}
-              class="text-sm font-medium text-gray-600 hover:text-primary transition-colors"
+              href={isSubpage ? base + item.href : item.href}
+              class="nav-link px-3 py-2 text-sm font-medium text-text/60 hover:text-primary transition-colors"
             >
               {item.label}
             </a>
@@ -22,21 +26,24 @@ import { NAV } from "../data/config";
       </ul>
     </div>
 
-    <button id="menu-toggle" class="md:hidden p-2" aria-label="Toggle menu">
-      <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-      </svg>
+    <button id="menu-toggle" class="md:hidden p-2 relative z-50" aria-label="Toggle menu">
+      <div class="w-6 h-5 flex flex-col justify-between">
+        <span class="block h-0.5 w-full bg-text/70 rounded transition-all duration-300 origin-center" id="bar-1"></span>
+        <span class="block h-0.5 w-full bg-text/70 rounded transition-all duration-300" id="bar-2"></span>
+        <span class="block h-0.5 w-full bg-text/70 rounded transition-all duration-300 origin-center" id="bar-3"></span>
+      </div>
     </button>
   </div>
 
-  <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 pb-4">
-    <ul class="flex flex-col gap-2 px-4 pt-2">
-      {NAV.map((item) => (
+  <div id="mobile-menu" class="md:hidden bg-bg/95 backdrop-blur-lg border-t border-white/5 overflow-hidden transition-all duration-300" style="max-height: 0; opacity: 0;">
+    <ul class="flex flex-col gap-1 px-4 py-2">
+      {NAV.map((item, i) => (
         <li>
           <a
             id={`nav-${item.href.replace("#", "")}`}
-            href={item.href}
-            class="block py-2 text-sm font-medium text-gray-600 hover:text-primary transition-colors"
+            href={isSubpage ? base + item.href : item.href}
+            class="nav-link block py-3 px-3 text-sm font-medium text-text/60 hover:text-primary transition-colors rounded-lg hover:bg-white/5"
+            style={`transition-delay: ${i * 50}ms`}
           >
             {item.label}
           </a>
@@ -49,32 +56,50 @@ import { NAV } from "../data/config";
 <script>
   const toggle = document.getElementById("menu-toggle");
   const menu = document.getElementById("mobile-menu");
+  const bars = ["bar-1", "bar-2", "bar-3"].map((id) => document.getElementById(id));
+
   if (toggle && menu) {
     toggle.addEventListener("click", () => {
-      menu.classList.toggle("hidden");
+      const isOpen = menu.style.maxHeight !== "0px" && menu.style.maxHeight !== "";
+      if (isOpen) {
+        menu.style.maxHeight = "0";
+        menu.style.opacity = "0";
+        bars[0] && (bars[0].style.transform = "");
+        bars[1] && (bars[1].style.opacity = "");
+        bars[2] && (bars[2].style.transform = "");
+      } else {
+        menu.style.maxHeight = menu.scrollHeight + "px";
+        menu.style.opacity = "1";
+        bars[0] && (bars[0].style.transform = "rotate(45deg) translateY(7px)");
+        bars[1] && (bars[1].style.opacity = "0");
+        bars[2] && (bars[2].style.transform = "rotate(-45deg) translateY(-7px)");
+      }
     });
   }
 
-  const links = document.querySelectorAll('[id^="nav-"]');
-  const sections = document.querySelectorAll("section[id]");
+  const isSubpage = document.querySelector("nav")?.dataset.subpage === "true";
+  if (!isSubpage) {
+    const links = document.querySelectorAll('[id^="nav-"]');
+    const sections = document.querySelectorAll("section[id]");
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          links.forEach((l) => {
-            l.classList.remove("text-primary", "font-semibold");
-            l.classList.add("text-gray-600");
-            if (l.id === "nav-" + entry.target.id) {
-              l.classList.remove("text-gray-600");
-              l.classList.add("text-primary", "font-semibold");
-            }
-          });
-        }
-      });
-    },
-    { threshold: 0.3 }
-  );
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            links.forEach((l) => {
+              l.classList.remove("active", "text-primary", "font-semibold");
+              l.classList.add("text-text/60");
+              if (l.id === "nav-" + entry.target.id) {
+                l.classList.remove("text-text/60");
+                l.classList.add("active", "text-primary", "font-semibold");
+              }
+            });
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
 
-  sections.forEach((s) => observer.observe(s));
+    sections.forEach((s) => observer.observe(s));
+  }
 </script>
