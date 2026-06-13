@@ -1,22 +1,114 @@
 ---
-
+const galleryImages = import.meta.glob('/src/assets/dokumentasi/*.{jpg,jpeg,png,JPG,JPEG,PNG}', { eager: true, query: '?url', import: 'default' });
+const images = Object.values(galleryImages as Record<string, string>);
 ---
 
-<section id="dokumentasi" class="py-20 bg-surface">
+<section id="dokumentasi" class="py-20 bg-bg relative overflow-hidden">
   <div class="max-w-6xl mx-auto px-4">
-    <h2 class="text-3xl md:text-4xl font-bold text-primary text-center">
+    <h2 class="text-3xl md:text-4xl font-bold text-primary text-center fade-in-up">
       Dokumentasi
     </h2>
-    <p class="mt-3 text-gray-600 text-center">
+    <p class="mt-3 text-text/60 text-center fade-in-up" style="transition-delay: 80ms">
       Momen-momen seru ECODAYS sebelumnya
     </p>
 
     <div class="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      {Array.from({ length: 8 }).map((_, i) => (
-        <div class="aspect-square bg-primary/5 rounded-xl flex items-center justify-center text-primary/20 text-sm" style={`transition-delay: ${i * 80}ms`}>
-          Foto
+      {images.map((src, i) => (
+        <div
+          class="aspect-square rounded-xl overflow-hidden fade-in-up cursor-pointer group"
+          style={`transition-delay: ${i * 80}ms; transform: translateY(${i % 2 === 0 ? -10 : 10}px)`}
+          data-gallery-trigger={i}
+        >
+          <img src={src} alt={`Dokumentasi ${i + 1}`} class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
         </div>
       ))}
     </div>
   </div>
+  <div class="absolute bottom-0 left-0 right-0 overflow-hidden leading-0 pointer-events-none" style="transform: translateY(1px)">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" class="w-full h-10 md:h-14">
+      <path d="M0,28 C240,56 480,0 720,28 C960,56 1200,0 1440,28 L1440,60 L0,60 Z" fill="#114F25"/>
+    </svg>
+  </div>
 </section>
+
+<div id="gallery-modal" class="fixed inset-0 z-[100] bg-black/90 opacity-0 pointer-events-none transition-opacity duration-300 overflow-hidden" style="backdrop-filter:blur(6px)">
+  <button id="gallery-close" class="absolute top-6 right-6 z-20 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm flex items-center justify-center text-white transition-all cursor-pointer" aria-label="Tutup">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+  </button>
+
+  <button id="gallery-prev" class="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm flex items-center justify-center text-white transition-all cursor-pointer" aria-label="Sebelumnya">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+  </button>
+  <button id="gallery-next" class="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm flex items-center justify-center text-white transition-all cursor-pointer" aria-label="Selanjutnya">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+  </button>
+
+  <div id="gallery-wrapper" class="w-full h-full flex items-center justify-center">
+    <img
+      id="gallery-img"
+      alt="Dokumentasi"
+      class="max-w-[90vw] max-h-[85vh] object-contain rounded-lg shadow-2xl select-none"
+      draggable="false"
+    />
+  </div>
+
+  <div id="gallery-counter" class="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white/15 backdrop-blur-md text-white/90 text-sm font-medium px-4 py-2 rounded-full border border-white/10 select-none">
+    1 / {images.length}
+  </div>
+</div>
+
+<script define:vars={{ images }}>
+  const modal = document.getElementById("gallery-modal");
+  const img = document.getElementById("gallery-img");
+  const counter = document.getElementById("gallery-counter");
+  const closeBtn = document.getElementById("gallery-close");
+  const prevBtn = document.getElementById("gallery-prev");
+  const nextBtn = document.getElementById("gallery-next");
+  const triggers = document.querySelectorAll("[data-gallery-trigger]");
+
+  let currentIndex = 0;
+  const total = images.length;
+
+  function show(index) {
+    if (!img || !modal) return;
+    currentIndex = ((index % total) + total) % total;
+    img.src = images[currentIndex];
+    if (counter) counter.textContent = (currentIndex + 1) + " / " + total;
+  }
+
+  function openModal(index) {
+    if (!modal) return;
+    show(index);
+    modal.classList.remove("opacity-0", "pointer-events-none");
+    modal.classList.add("opacity-100", "pointer-events-auto");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModal() {
+    if (!modal) return;
+    modal.classList.remove("opacity-100", "pointer-events-auto");
+    modal.classList.add("opacity-0", "pointer-events-none");
+    document.body.style.overflow = "";
+  }
+
+  triggers.forEach((el) => {
+    el.addEventListener("click", () => {
+      const idx = parseInt(el.getAttribute("data-gallery-trigger") || "0", 10);
+      openModal(idx);
+    });
+  });
+
+  closeBtn?.addEventListener("click", closeModal);
+  modal?.addEventListener("click", (e) => {
+    if (e.target === document.getElementById("gallery-wrapper")) closeModal();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (modal && modal.classList.contains("opacity-100")) {
+      if (e.key === "Escape") closeModal();
+      if (e.key === "ArrowLeft") show(currentIndex - 1);
+      if (e.key === "ArrowRight") show(currentIndex + 1);
+    }
+  });
+  prevBtn?.addEventListener("click", (e) => { e.stopPropagation(); show(currentIndex - 1); });
+  nextBtn?.addEventListener("click", (e) => { e.stopPropagation(); show(currentIndex + 1); });
+</script>

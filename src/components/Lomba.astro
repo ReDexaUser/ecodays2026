@@ -1,37 +1,74 @@
 ---
-import { LOMBA, HERO } from "../data/config";
+import { LOMBA } from "../data/config";
+
+const bannerImages = import.meta.glob<string>("/src/assets/banner/*.{jpeg,jpg,png,PNG}", { eager: true, query: "?url", import: "default" });
+const base = import.meta.env.BASE_URL;
 ---
 
-<section id="lomba" class="py-20 bg-white">
+<section id="lomba" class="py-20 bg-bg relative overflow-hidden">
   <div class="max-w-6xl mx-auto px-4">
-    <h2 class="text-3xl md:text-4xl font-bold text-primary text-center">
+    <h2 class="text-3xl md:text-4xl font-bold text-primary text-center fade-in-up">
       Lomba
     </h2>
-    <p class="mt-3 text-gray-600 text-center">
+    <p class="mt-3 text-text/60 text-center fade-in-up" style="transition-delay: 80ms">
       Ikuti kompetisi dan tunjukkan inovasimu!
     </p>
 
     <div class="mt-12 grid md:grid-cols-2 gap-8">
       {LOMBA.map((lomba, i) => (
-        <div data-tilt class="bg-surface rounded-2xl overflow-hidden border border-gray-100 hover:-translate-y-1 hover:shadow-lg transition-[translate,box-shadow]">
-          <div class="h-48 bg-primary/10 flex items-center justify-center text-primary/30 text-sm">
-            Poster {lomba.name}
+        <div
+          data-tilt
+          data-card-link={base + '/lomba/' + lomba.id}
+          class="group glass rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-300 fade-in-up cursor-pointer"
+          style={`transition-delay: ${i * 120}ms`}
+        >
+          <div class="relative h-48 md:h-56 overflow-hidden">
+            {bannerImages[`/src/assets/banner/${lomba.banner}`] ? (
+              <img
+                src={bannerImages[`/src/assets/banner/${lomba.banner}`]}
+                alt={`Banner ${lomba.name}`}
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                loading="lazy"
+              />
+            ) : (
+              <div class="w-full h-full bg-gradient-to-br from-surface to-bg flex items-center justify-center">
+                <span class="text-text/30 text-lg font-bold">{lomba.name}</span>
+              </div>
+            )}
+            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
           </div>
-          <div class="p-6">
-            <span class="text-xs font-semibold text-accent uppercase tracking-wider">
-              {lomba.tagline}
-            </span>
-            <h3 class="mt-2 text-xl font-bold text-primary">{lomba.name}</h3>
-            <p class="mt-2 text-gray-600 text-sm">{lomba.description}</p>
-            <a
-              href={HERO.ctaLink}
-              class="mt-4 inline-block text-sm font-semibold text-primary hover:text-primary-light transition-colors"
-            >
-              Daftar &rarr;
-            </a>
+          <div class="p-6 pt-5">
+            <h3 class="text-xl font-bold text-primary">{lomba.name}</h3>
+            <p class="text-xs text-text/40 mt-0.5 uppercase tracking-wider">{lomba.fullName}</p>
+            <p class="mt-2 text-text/60 text-sm leading-relaxed">{lomba.description}</p>
+            <div class="mt-4 flex items-center">
+              <a
+                href={base + '/lomba/' + lomba.id}
+                data-card-action
+                class="inline-flex items-center gap-1.5 text-sm font-semibold text-accent hover:text-accent/80 transition-colors group/link ml-auto"
+              >
+                Daftar
+                <span class="inline-block transition-transform duration-200 group-hover/link:translate-x-1">&rarr;</span>
+              </a>
+            </div>
           </div>
         </div>
       ))}
     </div>
   </div>
+  <div class="absolute bottom-0 left-0 right-0 overflow-hidden leading-0 pointer-events-none" style="transform: translateY(1px)">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" class="w-full h-10 md:h-14">
+      <path d="M0,28 C240,56 480,0 720,28 C960,56 1200,0 1440,28 L1440,60 L0,60 Z" fill="#114F25"/>
+    </svg>
+  </div>
 </section>
+
+<script>
+  document.querySelectorAll("[data-card-link]").forEach((card) => {
+    card.addEventListener("click", (e) => {
+      if (e.target.closest("[data-card-action]")) return;
+      const href = card.getAttribute("data-card-link");
+      if (href && href !== "#") window.location.href = href;
+    });
+  });
+</script>
