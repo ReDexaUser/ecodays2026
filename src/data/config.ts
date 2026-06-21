@@ -2,16 +2,16 @@ export const SITE = {
     title: "ECODAYS",
     description:
         "ECODAYS — Festival lingkungan tahunan yang menginspirasi aksi nyata untuk bumi yang lebih hijau.",
-    url: "https://ecodays2026.com",
+    url: "https://ecodays.info",
 };
 
 export const NAV = [
+    { label: "Sponsor", href: "#sponsor" },
     { label: "Tentang", href: "#about" },
     { label: "Timeline", href: "#timeline" },
     { label: "Lomba", href: "#lomba" },
     { label: "Seminar", href: "#seminar" },
     { label: "Dokumentasi", href: "#dokumentasi" },
-    { label: "Kontak", href: "#contact" },
 ];
 
 export const HERO = {
@@ -22,14 +22,8 @@ export const HERO = {
 
 export const ABOUT = {
     title: "Tentang ECODAYS",
-    vision:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    mission: [
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-        "Ut enim ad minim veniam, quis nostrud exercitation ullamco",
-        "Duis aute irure dolor in reprehenderit in voluptate velit",
-        "Excepteur sint occaecat cupidatat non proident, sunt in culpa",
-    ],
+    description:
+        "BSO dibawah naungan HMTK yang sudah berdiri sejak 2012 hingga sekarang. ECODAYS sendiri merupakan event yang diselengarakan rutin setiap tahunnya dengan tema yang beragam. Kami memiliki tujuan untuk mewadahi mahasiswa Indonesia dalam berkompetisi untuk merancang produk inovatif beserta sistem penerapannya dalam menciptakan ide, inovasi dan pengembangan <i>eco-technology</i> untuk mewujudkan <i>net zero emissions</i>. Mengembangkan bakat menulis, menampung aspirasi, dan menambahkan wawasan berbasis <i>eco-technology</i> para peserta untuk menciptakan ide, inovasi dan pengembangan <i>eco-technology</i> untuk mewujudkan <i>net zero emissions</i>.",
 };
 
 export const TIMELINE = [
@@ -43,8 +37,8 @@ export const LOMBA = [
         id: "enasco",
         name: "ENASCO",
         fullName: "Ecodays National Essay Competition",
-        poster: "enasco.jpeg",
-        banner: "enasco.png",
+        poster: "enasco.webp",
+        banner: "enasco.webp",
         theme: "From Small Steps to Big Impact: Driving Collective Action Toward a Zero Emission Future",
         subThemes: [
             "Green Economy for Net-Zero",
@@ -91,8 +85,8 @@ export const LOMBA = [
         id: "ichedece",
         name: "ICHEDECE",
         fullName: "Indonesia Chemical Reaction Car Development Challenge",
-        poster: "ichedece.png",
-        banner: "ichedece.png",
+        poster: "ichedece.webp",
+        banner: "ichedece.webp",
         theme: "From Small Steps to Big Impact: Driving Collective Action Toward a Zero Emission Future",
         timeline: [
             { date: "1 Jun – 12 Jul 2026", label: "Open Registration" },
@@ -144,9 +138,15 @@ export const SPONSORS = {
 };
 
 export const CONTACT = {
-    email: "ecodays@example.com",
-    instagram: "@ecodays_official",
-    whatsapp: "+62 812-3456-7890",
+    email: "ecodaysuns@ft.uns.ac.id",
+    instagram: "@ecodaysuns",
+    instagramUrl: "https://www.instagram.com/ecodaysuns",
+    tiktok: "@ecodays_uns",
+    tiktokUrl: "https://www.tiktok.com/@ecodays_uns",
+    facebook: "@ecodaysuns",
+    facebookUrl: "https://www.facebook.com/ecodaysuns",
+    twitter: "@EcodaysUNS",
+    twitterUrl: "https://twitter.com/EcodaysUNS",
 };
 
 export const FOOTER = {

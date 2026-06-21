@@ -1,8 +1,9 @@
 ---
 import { LOMBA } from "../data/config";
 
-const bannerImages = import.meta.glob<string>("/src/assets/banner/*.{jpeg,jpg,png,PNG}", { eager: true, query: "?url", import: "default" });
+const bannerImages = import.meta.glob<string>("/src/assets/banner/*.{jpeg,jpg,png,PNG,webp,WEBP}", { eager: true, query: "?url", import: "default" });
 const base = import.meta.env.BASE_URL;
+const basePath = base === '/' ? '' : base.replace(/\/+$/, '');
 ---
 
 <section id="lomba" class="py-20 bg-bg relative overflow-hidden">
@@ -18,7 +19,7 @@ const base = import.meta.env.BASE_URL;
       {LOMBA.map((lomba, i) => (
         <div
           data-tilt
-          data-card-link={base + '/lomba/' + lomba.id}
+          data-card-link={basePath + '/lomba/' + lomba.id}
           class="group glass rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-300 fade-in-up cursor-pointer"
           style={`transition-delay: ${i * 120}ms`}
         >
@@ -43,7 +44,7 @@ const base = import.meta.env.BASE_URL;
             <p class="mt-2 text-text/60 text-sm leading-relaxed">{lomba.description}</p>
             <div class="mt-4 flex items-center">
               <a
-                href={base + '/lomba/' + lomba.id}
+                href={basePath + '/lomba/' + lomba.id}
                 data-card-action
                 class="inline-flex items-center gap-1.5 text-sm font-semibold text-accent hover:text-accent/80 transition-colors group/link ml-auto"
               >
