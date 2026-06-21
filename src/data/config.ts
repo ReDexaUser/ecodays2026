@@ -27,9 +27,9 @@ export const ABOUT = {
 };
 
 export const TIMELINE = [
-    { date: "30 Sep 2026", label: "Seminar Nasional" },
-    { date: "3–4 Okt 2026", label: "Lomba Utama" },
-    { date: "4 Okt 2026", label: "Gala Night" },
+    { date: "30 Sep 2026", label: "Seminar Nasional Teknik Kimia Eco-Smart" },
+    { date: "2–3 Okt 2026", label: "ENASCO & ICHEDECE" },
+    { date: "3 Okt 2026", label: "Gala Night" },
 ];
 
 export const LOMBA = [
@@ -144,7 +144,7 @@ export const CONTACT = {
     tiktok: "@ecodays_uns",
     tiktokUrl: "https://www.tiktok.com/@ecodays_uns",
     facebook: "@ecodaysuns",
-    facebookUrl: "https://www.facebook.com/ecodaysuns",
+    facebookUrl: "https://web.facebook.com/uns.ecodays?_rdr",
     twitter: "@EcodaysUNS",
     twitterUrl: "https://twitter.com/EcodaysUNS",
 };
