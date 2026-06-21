@@ -27,9 +27,9 @@ export const ABOUT = {
 };
 
 export const TIMELINE = [
-    { date: "30 Sep 2026", label: "Seminar Nasional" },
-    { date: "3–4 Okt 2026", label: "Lomba Utama" },
-    { date: "4 Okt 2026", label: "Gala Night" },
+    { date: "30 Sep 2026", label: "Seminar Nasional Teknik Kimia Eco-Smart" },
+    { date: "2–3 Okt 2026", label: "ENASCO & ICHEDECE" },
+    { date: "3 Okt 2026", label: "Gala Night" },
 ];
 
 export const LOMBA = [
