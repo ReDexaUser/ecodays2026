@@ -144,7 +144,7 @@ export const CONTACT = {
     tiktok: "@ecodays_uns",
     tiktokUrl: "https://www.tiktok.com/@ecodays_uns",
     facebook: "@ecodaysuns",
-    facebookUrl: "https://www.facebook.com/ecodaysuns",
+    facebookUrl: "https://web.facebook.com/uns.ecodays?_rdr",
     twitter: "@EcodaysUNS",
     twitterUrl: "https://twitter.com/EcodaysUNS",
 };
