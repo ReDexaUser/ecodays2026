@@ -1,33 +1,9 @@
 ---
-import { HERO, SPONSORS } from "../data/config";
-import titleImage from "../assets/title.png";
-import xlUrls from "../assets/sponsors/xl/urls.json";
-import lUrls from "../assets/sponsors/l/urls.json";
-import mUrls from "../assets/sponsors/m/urls.json";
+import { HERO } from "../data/config";
+import titleImage from "../assets/title.webp";
 
-const xlImages = import.meta.glob('/src/assets/sponsors/xl/*.{png,jpg,jpeg,svg}', { eager: true, query: '?url', import: 'default' });
-const lImages = import.meta.glob('/src/assets/sponsors/l/*.{png,jpg,jpeg,svg}', { eager: true, query: '?url', import: 'default' });
-const mImages = import.meta.glob('/src/assets/sponsors/m/*.{png,jpg,jpeg,svg}', { eager: true, query: '?url', import: 'default' });
 const heroImages = import.meta.glob('/src/assets/hero/*.{jpg,jpeg,png,JPG,JPEG,PNG,webp,WEBP}', { eager: true, query: '?url', import: 'default' });
 
-interface SponsorItem {
-    name: string;
-    url: string;
-    src: string;
-}
-
-function resolveTier(images: Record<string, string>, urls: Record<string, string>): SponsorItem[] {
-    return Object.entries(images).map(([path, src]) => {
-        const filename = path.split('/').pop() || '';
-        const name = filename.replace(/\.(png|jpg|jpeg|svg)$/i, '');
-        const url = urls[filename] || '#';
-        return { name, url, src };
-    });
-}
-
-const xlSponsors = resolveTier(xlImages as Record<string, string>, xlUrls as Record<string, string>);
-const lSponsors = resolveTier(lImages as Record<string, string>, lUrls as Record<string, string>);
-const mSponsors = resolveTier(mImages as Record<string, string>, mUrls as Record<string, string>);
 const heroSlides = Object.values(heroImages as Record<string, string>);
 ---
 
@@ -65,35 +41,6 @@ const heroSlides = Object.values(heroImages as Record<string, string>);
       class="max-w-full h-auto fade-in-up"
       style="max-height: 200px; width: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)) drop-shadow(0 0 15px rgba(0,0,0,0.25)) drop-shadow(0 0 40px rgba(0,0,0,0.1))"
     />
-
-    <div class="mt-20 w-full fade-in-up" style="transition-delay: 150ms">
-      <div class="bg-white/[0.4] border border-white/[0.5] rounded-2xl p-6 md:p-8">
-        <p class="text-xs text-text-dark/80 font-bold uppercase tracking-[0.2em] mb-6 text-center">{SPONSORS.title}</p>
-        <div class="grid grid-cols-1 md:grid-cols-[6fr_3fr_2fr] gap-4 md:gap-6 items-start">
-          <div class="flex flex-col gap-3">
-            {xlSponsors.map((s) => (
-              <a href={s.url} class="flex items-center justify-center p-4 h-28">
-                <img src={s.src} alt={s.name} class="max-h-full object-contain" />
-              </a>
-            ))}
-          </div>
-          <div class="flex flex-col gap-3">
-            {lSponsors.map((s) => (
-              <a href={s.url} class="flex items-center justify-center p-3 h-16">
-                <img src={s.src} alt={s.name} class="max-h-full object-contain" />
-              </a>
-            ))}
-          </div>
-          <div class="flex flex-col gap-3">
-            {mSponsors.map((s) => (
-              <a href={s.url} class="flex items-center justify-center p-2 h-12">
-                <img src={s.src} alt={s.name} class="max-h-full object-contain" />
-              </a>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 

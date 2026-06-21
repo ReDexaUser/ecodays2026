@@ -1,8 +1,8 @@
 ---
 import { CONTACT } from "../data/config";
 
-const daicoImages = import.meta.glob<string>("/src/assets/daico/*.{png,PNG,jpg,jpeg}", { eager: true, query: "?url", import: "default" });
-const daicoLean = daicoImages["/src/assets/daico/bersandar-ke-depan.png"];
+const daicoImages = import.meta.glob<string>("/src/assets/daico/*.{png,PNG,jpg,jpeg,webp,WEBP}", { eager: true, query: "?url", import: "default" });
+const daicoLean = daicoImages["/src/assets/daico/bersandar-ke-depan.webp"];
 ---
 
 <section id="contact" class="py-20 bg-surface relative overflow-hidden">
@@ -42,6 +42,6 @@ const daicoLean = daicoImages["/src/assets/daico/bersandar-ke-depan.png"];
   </div>
 
   {daicoLean && (
-    <img src={daicoLean} alt="" class="absolute bottom-0 right-0 w-44 md:w-56 opacity-5 md:opacity-20 pointer-events-none select-none" draggable="false" />
+    <img src={daicoLean} alt="" class="absolute bottom-0 right-0 w-44 md:w-56 opacity-10 md:opacity-30 pointer-events-none select-none" draggable="false" />
   )}
 </section>

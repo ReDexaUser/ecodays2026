@@ -1,14 +1,19 @@
 ---
 import { NAV } from "../data/config";
+import logoIcon from "../assets/icons/ecodays.png";
 
 const { current } = Astro.props;
 const isSubpage = !!current;
 const base = import.meta.env.BASE_URL;
+const basePath = base === '/' ? '' : base.replace(/\/+$/, '');
 ---
 
 <nav data-subpage={isSubpage ? "true" : "false"} class="fixed top-0 left-0 right-0 z-50 bg-bg/90 backdrop-blur-lg border-b border-white/5">
   <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-    <a href={isSubpage ? base : "#"} class="text-xl font-bold text-primary tracking-tight hover:text-accent transition-colors">ECODAYS</a>
+    <a href={isSubpage ? base : "#"} class="flex items-center gap-1 text-xl font-bold text-primary tracking-tight hover:text-accent transition-colors">
+      <img src={logoIcon.src} alt="E" class="h-7 w-auto" />
+      <span>ECODAYS</span>
+    </a>
 
     <div class="hidden md:flex items-center gap-8">
       <ul class="flex gap-1">
@@ -16,7 +21,7 @@ const base = import.meta.env.BASE_URL;
           <li>
             <a
               id={`nav-${item.href.replace("#", "")}`}
-              href={isSubpage ? base + item.href : item.href}
+              href={isSubpage ? basePath + item.href : item.href}
               class="nav-link px-3 py-2 text-sm font-medium text-text/60 hover:text-primary transition-colors"
             >
               {item.label}
@@ -41,7 +46,7 @@ const base = import.meta.env.BASE_URL;
         <li>
           <a
             id={`nav-${item.href.replace("#", "")}`}
-            href={isSubpage ? base + item.href : item.href}
+            href={isSubpage ? basePath + item.href : item.href}
             class="nav-link block py-3 px-3 text-sm font-medium text-text/60 hover:text-primary transition-colors rounded-lg hover:bg-white/5"
             style={`transition-delay: ${i * 50}ms`}
           >
@@ -82,24 +87,33 @@ const base = import.meta.env.BASE_URL;
     const links = document.querySelectorAll('[id^="nav-"]');
     const sections = document.querySelectorAll("section[id]");
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            links.forEach((l) => {
-              l.classList.remove("active", "text-primary", "font-semibold");
-              l.classList.add("text-text/60");
-              if (l.id === "nav-" + entry.target.id) {
-                l.classList.remove("text-text/60");
-                l.classList.add("active", "text-primary", "font-semibold");
-              }
-            });
+    function updateNav() {
+      const scrollY = window.scrollY;
+      let bestId = null;
+      let bestDist = Infinity;
+
+      sections.forEach((s) => {
+        const top = s.offsetTop - 80;
+        const dist = Math.abs(scrollY - top);
+        if (dist < bestDist) {
+          bestDist = dist;
+          bestId = s.id;
+        }
+      });
+
+      if (bestId) {
+        links.forEach((l) => {
+          l.classList.remove("active", "text-primary", "font-semibold");
+          l.classList.add("text-text/60");
+          if (l.id === "nav-" + bestId) {
+            l.classList.remove("text-text/60");
+            l.classList.add("active", "text-primary", "font-semibold");
           }
         });
-      },
-      { threshold: 0.3 }
-    );
+      }
+    }
 
-    sections.forEach((s) => observer.observe(s));
+    window.addEventListener("scroll", updateNav, { passive: true });
+    updateNav();
   }
 </script>

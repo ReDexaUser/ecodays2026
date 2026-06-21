@@ -18,6 +18,10 @@ html {
   position: relative;
 }
 
+section[id] {
+  scroll-margin-top: 64px;
+}
+
 html::after {
   content: "";
   position: fixed;

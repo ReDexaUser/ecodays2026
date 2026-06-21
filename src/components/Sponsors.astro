@@ -1,0 +1,68 @@
+---
+import { SPONSORS } from "../data/config";
+import xlUrls from "../assets/sponsors/xl/urls.json";
+import lUrls from "../assets/sponsors/l/urls.json";
+import mUrls from "../assets/sponsors/m/urls.json";
+
+const xlImages = import.meta.glob('/src/assets/sponsors/xl/*.{png,jpg,jpeg,svg,webp,WEBP}', { eager: true, query: '?url', import: 'default' });
+const lImages = import.meta.glob('/src/assets/sponsors/l/*.{png,jpg,jpeg,svg,webp,WEBP}', { eager: true, query: '?url', import: 'default' });
+const mImages = import.meta.glob('/src/assets/sponsors/m/*.{png,jpg,jpeg,svg,webp,WEBP}', { eager: true, query: '?url', import: 'default' });
+
+interface SponsorItem {
+    name: string;
+    url: string;
+    src: string;
+}
+
+function resolveTier(images: Record<string, string>, urls: Record<string, string>): SponsorItem[] {
+    return Object.entries(images).map(([path, src]) => {
+        const filename = path.split('/').pop() || '';
+        const name = filename.replace(/\.(png|jpg|jpeg|svg)$/i, '');
+        const url = urls[filename] || '#';
+        return { name, url, src };
+    });
+}
+
+const xlSponsors = resolveTier(xlImages as Record<string, string>, xlUrls as Record<string, string>);
+const lSponsors = resolveTier(lImages as Record<string, string>, lUrls as Record<string, string>);
+const mSponsors = resolveTier(mImages as Record<string, string>, mUrls as Record<string, string>);
+---
+
+<section id="sponsor" class="py-20 bg-gradient-to-b from-bg to-surface relative overflow-hidden">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-3xl md:text-4xl font-bold text-primary text-center fade-in-up">
+      {SPONSORS.title}
+    </h2>
+
+    <div class="mt-6 md:mt-10 bg-white/25 backdrop-blur-[16px] border border-white/20 rounded-2xl p-4 md:p-8 fade-in-up" style="transition-delay: 100ms">
+      <div class="grid grid-cols-1 md:grid-cols-[6fr_3fr_2fr] gap-3 md:gap-6 items-start">
+        <div class="flex flex-col gap-2 md:gap-3">
+          {xlSponsors.map((s) => (
+            <a href={s.url} class="flex items-center justify-center p-3 md:p-4 h-20 md:h-28 rounded-xl hover:-translate-y-0.5 hover:scale-[1.03] transition-all duration-300 border border-transparent hover:border-accent/30">
+              <img src={s.src} alt={s.name} class="max-h-full object-contain" />
+            </a>
+          ))}
+        </div>
+        <div class="flex flex-col gap-2 md:gap-3">
+          {lSponsors.map((s) => (
+            <a href={s.url} class="flex items-center justify-center p-2 md:p-3 h-12 md:h-16 rounded-xl hover:-translate-y-0.5 hover:scale-[1.03] transition-all duration-300 border border-transparent hover:border-accent/30">
+              <img src={s.src} alt={s.name} class="max-h-full object-contain" />
+            </a>
+          ))}
+        </div>
+        <div class="flex flex-col gap-2 md:gap-3">
+          {mSponsors.map((s) => (
+            <a href={s.url} class="flex items-center justify-center p-2 h-10 md:h-12 rounded-xl hover:-translate-y-0.5 hover:scale-[1.03] transition-all duration-300 border border-transparent hover:border-accent/30">
+              <img src={s.src} alt={s.name} class="max-h-full object-contain" />
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="absolute bottom-0 left-0 right-0 overflow-hidden leading-0 pointer-events-none" style="transform: translateY(1px)">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" class="w-full h-10 md:h-14">
+      <path d="M0,28 C240,56 480,0 720,28 C960,56 1200,0 1440,28 L1440,60 L0,60 Z" fill="#0D4720"/>
+    </svg>
+  </div>
+</section>
