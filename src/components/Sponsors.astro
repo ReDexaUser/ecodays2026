@@ -26,6 +26,18 @@ function resolveTier(images: Record<string, string>, urls: Record<string, string
 const xlSponsors = resolveTier(xlImages as Record<string, string>, xlUrls as Record<string, string>);
 const lSponsors = resolveTier(lImages as Record<string, string>, lUrls as Record<string, string>);
 const mSponsors = resolveTier(mImages as Record<string, string>, mUrls as Record<string, string>);
+
+const hasXl = xlSponsors.length > 0;
+const hasL = lSponsors.length > 0;
+const hasM = mSponsors.length > 0;
+const activeTiers = [hasXl, hasL, hasM].filter(Boolean).length;
+
+let gridCols = 'grid grid-cols-1';
+if (activeTiers === 3) gridCols += ' md:grid-cols-[6fr_3fr_2fr]';
+else if (activeTiers === 2 && hasXl && hasL) gridCols += ' md:grid-cols-[2fr_1fr]';
+else if (activeTiers === 2 && hasXl && hasM) gridCols += ' md:grid-cols-[3fr_1fr]';
+else if (activeTiers === 2) gridCols += ' md:grid-cols-2';
+else gridCols += ' justify-items-center';
 ---
 
 <section id="sponsor" class="py-20 bg-gradient-to-b from-bg to-surface relative overflow-hidden">
@@ -34,29 +46,35 @@ const mSponsors = resolveTier(mImages as Record<string, string>, mUrls as Record
       {SPONSORS.title}
     </h2>
 
-    <div class="mt-6 md:mt-10 bg-white/25 backdrop-blur-[16px] border border-white/20 rounded-2xl p-4 md:p-8 fade-in-up" style="transition-delay: 100ms">
-      <div class="grid grid-cols-1 md:grid-cols-[6fr_3fr_2fr] gap-3 md:gap-6 items-start">
-        <div class="flex flex-col gap-2 md:gap-3">
+      <div class={`mt-6 md:mt-10 bg-white/25 backdrop-blur-[16px] border border-white/20 rounded-2xl p-4 md:p-8 fade-in-up`} style="transition-delay: 100ms">
+      <div class={`${gridCols} gap-3 md:gap-6 items-start`}>
+        {hasXl && (
+        <div class="flex flex-col gap-2 md:gap-3 items-center">
           {xlSponsors.map((s) => (
             <a href={s.url} class="flex items-center justify-center p-3 md:p-4 h-20 md:h-28 rounded-xl hover:-translate-y-0.5 hover:scale-[1.03] transition-all duration-300 border border-transparent hover:border-accent/30">
               <img src={s.src} alt={s.name} class="max-h-full object-contain" />
             </a>
           ))}
         </div>
-        <div class="flex flex-col gap-2 md:gap-3">
+        )}
+        {hasL && (
+        <div class="flex flex-col gap-2 md:gap-3 items-center">
           {lSponsors.map((s) => (
             <a href={s.url} class="flex items-center justify-center p-2 md:p-3 h-12 md:h-16 rounded-xl hover:-translate-y-0.5 hover:scale-[1.03] transition-all duration-300 border border-transparent hover:border-accent/30">
               <img src={s.src} alt={s.name} class="max-h-full object-contain" />
             </a>
           ))}
         </div>
-        <div class="flex flex-col gap-2 md:gap-3">
+        )}
+        {hasM && (
+        <div class="flex flex-col gap-2 md:gap-3 items-center">
           {mSponsors.map((s) => (
             <a href={s.url} class="flex items-center justify-center p-2 h-10 md:h-12 rounded-xl hover:-translate-y-0.5 hover:scale-[1.03] transition-all duration-300 border border-transparent hover:border-accent/30">
               <img src={s.src} alt={s.name} class="max-h-full object-contain" />
             </a>
           ))}
         </div>
+        )}
       </div>
     </div>
   </div>
