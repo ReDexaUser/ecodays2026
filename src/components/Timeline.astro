@@ -15,7 +15,7 @@ import { TIMELINE } from "../data/config";
         <div class="grid grid-cols-3 gap-6 relative">
           {TIMELINE.map((item, i) => (
             <div class="flex flex-col items-center fade-in-up" style={`transition-delay: ${i * 120}ms`}>
-              <div class="w-7 h-7 rounded-full bg-accent text-white flex items-center justify-center text-xs font-bold shadow-lg shadow-accent/30 ring-2 ring-accent/20 shrink-0">{i + 1}</div>
+              <div class="w-7 h-7 rounded-full bg-accent text-on-accent flex items-center justify-center text-xs font-bold shadow-lg shadow-accent/30 ring-2 ring-accent/20 shrink-0">{i + 1}</div>
               <div class="w-[3px] h-5 bg-accent/30" />
               <div class="glass rounded-2xl p-5 w-full text-center hover:-translate-y-1 transition-all duration-300">
                 <p class="text-accent font-bold text-sm">{item.date}</p>
@@ -33,7 +33,7 @@ import { TIMELINE } from "../data/config";
           {i < TIMELINE.length - 1 && (
             <div class="absolute left-[13px] top-8 bottom-0 border-l-[3px] border-dashed border-accent/30 -mb-4"></div>
           )}
-          <div class="absolute left-0 top-1.5 w-7 h-7 rounded-full bg-accent text-white flex items-center justify-center text-xs font-bold shadow-lg shadow-accent/30 ring-2 ring-accent/20">{i + 1}</div>
+          <div class="absolute left-0 top-1.5 w-7 h-7 rounded-full bg-accent text-on-accent flex items-center justify-center text-xs font-bold shadow-lg shadow-accent/30 ring-2 ring-accent/20">{i + 1}</div>
           <div class="glass rounded-2xl p-4">
             <p class="text-accent font-bold text-sm">{item.date}</p>
             <p class="mt-1 text-sm text-text/60">{item.label}</p>
@@ -44,7 +44,7 @@ import { TIMELINE } from "../data/config";
   </div>
   <div class="absolute bottom-0 left-0 right-0 overflow-hidden leading-0 pointer-events-none" style="transform: translateY(1px)">
     <svg viewBox="0 0 1440 60" preserveAspectRatio="none" class="w-full h-10 md:h-14">
-      <path d="M0,28 C240,56 480,0 720,28 C960,56 1200,0 1440,28 L1440,60 L0,60 Z" fill="#0D4720"/>
+      <path d="M0,28 C240,56 480,0 720,28 C960,56 1200,0 1440,28 L1440,60 L0,60 Z" fill="#0A3B1D"/>
     </svg>
   </div>
 </section>

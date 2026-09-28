@@ -2,36 +2,74 @@
 
 @theme {
   --color-primary: #FFFFFF;
-  --color-primary-light: #E8F5E9;
+  --color-primary-light: #1B6B36;
   --color-accent: #F5A623;
-  --color-bg: #0D4720;
-  --color-surface: #114F25;
-  --color-card: #F0F4F1;
+  --color-accent-hover: #FFB84D;
+  --color-on-accent: #0A2E14;
+  --color-bg: #0A3B1D;
+  --color-surface: #0F4A22;
+  --color-mint: #34D399;
+  --color-muted: #A9C6B4;
   --color-text: #FFFFFF;
   --color-text-dark: #1A1A1A;
-  --color-mint: #34D399;
+  --color-border: rgba(255, 255, 255, 0.12);
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
-html {
-  scroll-behavior: smooth;
-  overscroll-behavior: none;
-  position: relative;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    overscroll-behavior: none;
+    position: relative;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.65;
+  }
+
+  h1, h2, h3 {
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+  }
+
+  section[id] {
+    scroll-margin-top: 64px;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  html::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 200px 200px;
+  }
 }
 
-section[id] {
-  scroll-margin-top: 64px;
-}
+@layer components {
+  .btn-accent {
+    @apply inline-flex items-center justify-center gap-2 bg-accent text-on-accent font-semibold px-6 py-3.5 rounded-xl transition-all duration-300 hover:bg-accent-hover hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/25;
+  }
 
-html::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 200px 200px;
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 border-2 border-accent/40 text-accent font-semibold px-6 py-3.5 rounded-xl transition-all duration-300 hover:bg-accent/10 hover:border-accent/60;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 border-2 border-white/20 text-primary/80 font-semibold px-6 py-3.5 rounded-xl transition-all duration-300 hover:bg-mint/10 hover:border-mint/40 hover:text-mint;
+  }
 }
 
 /* ── Animasi ── */
@@ -123,8 +161,6 @@ html::after {
   will-change: transform;
 }
 
-
-
 /* ── Card shadow ── */
 
 .card-shadow {
@@ -145,4 +181,27 @@ html::after {
   border-color: rgba(255, 255, 255, 0.18);
 }
 
+/* ── Aksesibilitas: kurangi gerak ── */
 
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .float,
+  .float-slow,
+  .pulse-glow {
+    animation: none !important;
+  }
+
+  .fade-in-up {
+    opacity: 1;
+    transform: none;
+  }
+}

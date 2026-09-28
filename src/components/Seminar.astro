@@ -1,4 +1,5 @@
 ---
+import { Icon } from "astro-icon/components";
 import { SEMINAR } from "../data/config";
 
 const base = import.meta.env.BASE_URL;
@@ -8,9 +9,9 @@ const posterImages = import.meta.glob<string>("/src/assets/poster/*.{jpeg,jpg,pn
 const posterSrc = SEMINAR.poster ? posterImages[`/src/assets/poster/${SEMINAR.poster}`] : undefined;
 
 const schedule = [
-  { label: "Tanggal", value: SEMINAR.date, icon: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" },
-  { label: "Waktu", value: SEMINAR.time, icon: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" },
-  { label: "Tempat", value: SEMINAR.venue, icon: "M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0zM15 11a3 3 0 11-6 0 3 3 0 016 0z" },
+  { label: "Tanggal", value: SEMINAR.date, icon: "lucide:calendar" },
+  { label: "Waktu", value: SEMINAR.time, icon: "lucide:clock" },
+  { label: "Tempat", value: SEMINAR.venue, icon: "lucide:map-pin" },
 ];
 ---
 
@@ -38,7 +39,7 @@ const schedule = [
               loading="lazy"
             />
           ) : (
-            <div class="w-full max-w-[240px] aspect-[3/4] rounded-xl glass flex items-center justify-center text-text/30 text-sm">
+            <div class="w-full max-w-[240px] aspect-[3/4] rounded-xl glass flex items-center justify-center text-muted text-sm">
               Poster belum tersedia
             </div>
           )}
@@ -53,10 +54,10 @@ const schedule = [
             {schedule.map((s) => (
               <div class="rounded-2xl bg-white/5 border border-white/10 p-4 flex items-start gap-3">
                 <span class="w-9 h-9 rounded-lg bg-accent/15 flex items-center justify-center shrink-0">
-                  <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={s.icon}/></svg>
+                  <Icon name={s.icon} class="w-4 h-4 text-accent" />
                 </span>
                 <div>
-                  <p class="text-xs text-text/40 uppercase tracking-wider font-bold">{s.label}</p>
+                  <p class="text-xs text-muted uppercase tracking-wider font-bold">{s.label}</p>
                   <p class="text-primary font-semibold mt-0.5 leading-snug">{s.value}</p>
                 </div>
               </div>
@@ -65,7 +66,7 @@ const schedule = [
 
           <div class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-accent">
             Lihat detail
-            <svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <Icon name="lucide:chevron-right" class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
           </div>
         </div>
       </div>
@@ -73,7 +74,7 @@ const schedule = [
   </div>
   <div class="absolute bottom-0 left-0 right-0 overflow-hidden leading-0 pointer-events-none" style="transform: translateY(1px)">
     <svg viewBox="0 0 1440 60" preserveAspectRatio="none" class="w-full h-10 md:h-14">
-      <path d="M0,28 C240,56 480,0 720,28 C960,56 1200,0 1440,28 L1440,60 L0,60 Z" fill="#0D4720"/>
+      <path d="M0,28 C240,56 480,0 720,28 C960,56 1200,0 1440,28 L1440,60 L0,60 Z" fill="#0A3B1D"/>
     </svg>
   </div>
 </section>

@@ -1,4 +1,5 @@
 ---
+import { Icon } from "astro-icon/components";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
@@ -10,20 +11,22 @@ const base = import.meta.env.BASE_URL;
 <BaseLayout title={`404 - ${SITE.title}`}>
   <Navbar current="404" />
 
+  <main>
   <section class="min-h-screen flex items-center justify-center bg-bg pt-16">
     <div class="text-center px-4">
       <h1 class="text-9xl font-bold text-primary/20">404</h1>
       <p class="mt-4 text-xl text-text/60">Halaman tidak ditemukan</p>
-      <p class="mt-2 text-text/40">Halaman yang kamu cari mungkin telah dipindahkan atau dihapus.</p>
+      <p class="mt-2 text-muted">Halaman yang kamu cari mungkin telah dipindahkan atau dihapus.</p>
       <a
         href={base}
-        class="mt-8 inline-flex items-center gap-2 bg-accent text-white font-semibold px-8 py-3.5 rounded-xl hover:bg-accent/80 transition-all duration-200 hover:shadow-lg hover:shadow-accent/20 group"
+        class="mt-8 btn-accent group"
       >
-        <svg class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        <Icon name="lucide:chevron-left" class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" />
         Kembali ke Beranda
       </a>
     </div>
   </section>
+  </main>
 
   <Footer />
 </BaseLayout>

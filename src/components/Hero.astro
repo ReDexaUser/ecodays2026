@@ -23,7 +23,7 @@ const heroSlides = Object.values(heroImages as Record<string, string>);
   <div class="absolute bottom-0 right-0 w-1/2 h-1/2 opacity-70" style="background: radial-gradient(ellipse at bottom right, rgba(246, 166, 35, 0.12), transparent 60%)"></div>
 
   <!-- Layer 2: Bottom fade — darkens gradually toward footer for sponsor legibility -->
-  <div class="absolute inset-x-0 bottom-0 h-2/3" style="background: linear-gradient(to top, #0D4720 0%, rgba(13, 71, 32, 0.55) 35%, transparent 100%)"></div>
+  <div class="absolute inset-x-0 bottom-0 h-2/3" style="background: linear-gradient(to top, #0A3B1D 0%, rgba(10, 59, 29, 0.55) 35%, transparent 100%)"></div>
 
   <!-- Layer 3: Radial vignette — soft darkening at edges, clear center for photo -->
   <div class="absolute inset-0" style="background: radial-gradient(ellipse at 50% 35%, transparent 30%, rgba(13, 71, 32, 0.4) 100%)"></div>
@@ -35,9 +35,10 @@ const heroSlides = Object.values(heroImages as Record<string, string>);
 
   <!-- Content -->
   <div class="max-w-6xl mx-auto px-4 py-20 flex flex-col items-center text-center relative z-10">
+    <h1 class="sr-only">{HERO.title} 2026</h1>
     <img
       src={titleImage.src}
-      alt="ECODAYS"
+      alt="ECODAYS 2026"
       class="max-w-full h-auto fade-in-up"
       style="max-height: 200px; width: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)) drop-shadow(0 0 15px rgba(0,0,0,0.25)) drop-shadow(0 0 40px rgba(0,0,0,0.1))"
     />
@@ -48,11 +49,15 @@ const heroSlides = Object.values(heroImages as Record<string, string>);
   const slides = document.querySelectorAll<HTMLElement>("[data-slide]");
   let current = 0;
 
-  setInterval(() => {
-    const next = (current + 1) % slides.length;
-    slides.forEach((s, i) => {
-      s.style.opacity = i === next ? "1" : "0";
-    });
-    current = next;
-  }, 5000);
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (slides.length > 1 && !reduceMotion) {
+    setInterval(() => {
+      const next = (current + 1) % slides.length;
+      slides.forEach((s, i) => {
+        s.style.opacity = i === next ? "1" : "0";
+      });
+      current = next;
+    }, 5000);
+  }
 </script>
