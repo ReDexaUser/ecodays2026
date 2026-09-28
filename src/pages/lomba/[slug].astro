@@ -16,7 +16,6 @@ const lomba = LOMBA.find((l) => l.id === slug);
 const posterImages = import.meta.glob<string>("/src/assets/poster/*.{jpeg,jpg,png,webp,WEBP}", { eager: true, query: "?url", import: "default" });
 const imgSrc = posterImages[`/src/assets/poster/${lomba.poster}`];
 const base = import.meta.env.BASE_URL;
-const basePath = base === '/' ? '' : base.replace(/\/+$/, '');
 
 const daicoImages = import.meta.glob<string>("/src/assets/daico/*.{jpeg,jpg,png,PNG,webp,WEBP}", { eager: true, query: "?url", import: "default" });
 const daicoWave = daicoImages["/src/assets/daico/melambai.webp"];
