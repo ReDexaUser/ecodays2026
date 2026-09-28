@@ -9,6 +9,7 @@ Website resmi ECODAYS 2026 — dibangun dengan [Astro](https://astro.build) + [T
 | **Astro 5** | Static site generator, output HTML statis |
 | **Tailwind CSS v4** | Utility-first CSS, config berbasis CSS |
 | **TypeScript** | Type safety (strict) |
+| **astro-icon** | Ikon (Lucide + Simple Icons) |
 | **@astrojs/sitemap** | Generate sitemap otomatis |
 | **GitHub Pages** | Hosting & deployment |
 | **Custom Domain** | `ecodays.info` |
@@ -99,15 +100,19 @@ Token kustom Tailwind v4 di `src/styles/global.css` (blok `@theme`):
 
 | Token | Hex | Penggunaan |
 |---|---|---|
-| `--color-bg` | `#0D4720` | Latar utama (hijau tua) |
-| `--color-surface` | `#114F25` | Permukaan / section alternatif |
+| `--color-bg` | `#0A3B1D` | Latar utama (hijau tua) |
+| `--color-surface` | `#0F4A22` | Permukaan / section alternatif |
 | `--color-primary` | `#FFFFFF` | Heading & teks utama di latar gelap |
-| `--color-primary-light` | `#E8F5E9` | Varian terang |
+| `--color-primary-light` | `#1B6B36` | Hover / elevated |
 | `--color-accent` | `#F5A623` | CTA & highlight |
-| `--color-card` | `#F0F4F1` | Latar kartu terang |
+| `--color-accent-hover` | `#FFB84D` | Hover CTA |
+| `--color-on-accent` | `#0A2E14` | Teks di atas latar accent |
+| `--color-muted` | `#A9C6B4` | Teks sekunder (lolos AA) |
 | `--color-mint` | `#34D399` | Aksen sekunder |
 | `--color-text` | `#FFFFFF` | Teks terang |
 | `--color-text-dark` | `#1A1A1A` | Teks gelap |
+
+Font: **Plus Jakarta Sans** (Google Fonts, bobot 400-800). Ikon: **astro-icon** dengan koleksi **Lucide** (UI) dan **Simple Icons** (brand sosial).
 
 ## Development
 

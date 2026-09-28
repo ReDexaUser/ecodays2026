@@ -7,7 +7,8 @@ const isSubpage = !!current;
 const base = import.meta.env.BASE_URL;
 ---
 
-<nav data-subpage={isSubpage ? "true" : "false"} class="fixed top-0 left-0 right-0 z-50 bg-bg/90 backdrop-blur-lg border-b border-white/5">
+<header class="fixed top-0 left-0 right-0 z-50">
+<nav data-subpage={isSubpage ? "true" : "false"} class="bg-bg/60 backdrop-blur-md border-b border-white/5 transition-colors duration-300">
   <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
     <a href={isSubpage ? base : "#"} class="flex items-center gap-1 text-xl font-bold text-primary tracking-tight hover:text-accent transition-colors">
       <img src={logoIcon.src} alt="E" class="h-7 w-auto" />
@@ -21,7 +22,7 @@ const base = import.meta.env.BASE_URL;
             <a
               data-nav={item.href.replace("#", "")}
               href={isSubpage ? base + item.href : item.href}
-              class="nav-link px-3 py-2 text-sm font-medium text-text/60 hover:text-primary transition-colors"
+              class="nav-link px-3 py-2 text-sm font-medium text-muted hover:text-primary transition-colors"
             >
               {item.label}
             </a>
@@ -46,7 +47,7 @@ const base = import.meta.env.BASE_URL;
           <a
             data-nav={item.href.replace("#", "")}
             href={isSubpage ? base + item.href : item.href}
-            class="nav-link block py-3 px-3 text-sm font-medium text-text/60 hover:text-primary transition-colors rounded-lg hover:bg-white/5"
+            class="nav-link block py-3 px-3 text-sm font-medium text-muted hover:text-primary transition-colors rounded-lg hover:bg-white/5"
             style={`transition-delay: ${i * 50}ms`}
           >
             {item.label}
@@ -56,11 +57,24 @@ const base = import.meta.env.BASE_URL;
     </ul>
   </div>
 </nav>
+</header>
 
 <script>
   const toggle = document.getElementById("menu-toggle");
   const menu = document.getElementById("mobile-menu");
   const bars = ["bar-1", "bar-2", "bar-3"].map((id) => document.getElementById(id));
+
+  const nav = document.querySelector("nav");
+  const onScroll = () => {
+    if (!nav) return;
+    const scrolled = window.scrollY > 20;
+    nav.classList.toggle("bg-bg/95", scrolled);
+    nav.classList.toggle("shadow-lg", scrolled);
+    nav.classList.toggle("shadow-black/20", scrolled);
+    nav.classList.toggle("bg-bg/60", !scrolled);
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
 
   function closeMenu() {
     if (!menu) return;
@@ -110,9 +124,9 @@ const base = import.meta.env.BASE_URL;
       if (bestId) {
         links.forEach((l) => {
           l.classList.remove("active", "text-primary", "font-semibold");
-          l.classList.add("text-text/60");
+          l.classList.add("text-muted");
           if (l.dataset.nav === bestId) {
-            l.classList.remove("text-text/60");
+            l.classList.remove("text-muted");
             l.classList.add("active", "text-primary", "font-semibold");
           }
         });

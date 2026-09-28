@@ -33,14 +33,14 @@ const basePath = base === '/' ? '' : base.replace(/\/+$/, '');
               />
             ) : (
               <div class="w-full h-full bg-gradient-to-br from-surface to-bg flex items-center justify-center">
-                <span class="text-text/30 text-lg font-bold">{lomba.name}</span>
+                <span class="text-muted text-lg font-bold">{lomba.name}</span>
               </div>
             )}
             <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
           </div>
           <div class="p-6 pt-5">
             <h3 class="text-xl font-bold text-primary">{lomba.name}</h3>
-            <p class="text-xs text-text/40 mt-0.5 uppercase tracking-wider">{lomba.fullName}</p>
+            <p class="text-xs text-muted mt-0.5 uppercase tracking-wider">{lomba.fullName}</p>
             <p class="mt-2 text-text/60 text-sm leading-relaxed">{lomba.description}</p>
             <div class="mt-4 flex items-center">
               <a
@@ -59,7 +59,7 @@ const basePath = base === '/' ? '' : base.replace(/\/+$/, '');
   </div>
   <div class="absolute bottom-0 left-0 right-0 overflow-hidden leading-0 pointer-events-none" style="transform: translateY(1px)">
     <svg viewBox="0 0 1440 60" preserveAspectRatio="none" class="w-full h-10 md:h-14">
-      <path d="M0,28 C240,56 480,0 720,28 C960,56 1200,0 1440,28 L1440,60 L0,60 Z" fill="#114F25"/>
+      <path d="M0,28 C240,56 480,0 720,28 C960,56 1200,0 1440,28 L1440,60 L0,60 Z" fill="#0F4A22"/>
     </svg>
   </div>
 </section>
