@@ -27,7 +27,7 @@ export const ABOUT = {
 };
 
 export const TIMELINE = [
-    { date: "30 Sep 2026", label: "Seminar Nasional Teknik Kimia Eco-Smart" },
+    { date: "30 Sep 2026", label: "Seminar Nasional Teknik Kimia 2026" },
     { date: "2–3 Okt 2026", label: "ENASCO & ICHEDECE" },
     { date: "3 Okt 2026", label: "Gala Night" },
 ];
@@ -123,14 +123,25 @@ export const LOMBA = [
 ];
 
 export const SEMINAR = {
-    title: "Seminar Nasional",
-    theme: "Masa Depan Hijau: Inovasi dan Kolaborasi untuk Lingkungan Berkelanjutan",
-    date: "5 Agustus 2026",
-    time: "08:00 - 16:00 WIB",
-    venue: "Gedung Serba Guna, Universitas Contoh",
+    title: "Seminar Nasional Teknik Kimia 2026",
+    shortName: "SNTK 2026",
+    theme: "Advancing Sustainable Solutions for Energy and Environmental Challenges",
+    date: "30 September 2026",
+    time: "07.30 – 11.50 WIB",
+    venue: "Ruang Multimedia Gedung 4 FT UNS",
     description:
-        "Seminar nasional yang membahas isu-isu lingkungan terkini dan solusi berkelanjutan untuk masa depan yang lebih hijau.",
-    registrationLink: "#seminar",
+        'Seminar Nasional Teknik Kimia 2026 (SNTK 2026) mengangkat tema "Advancing Sustainable Solutions for Energy and Environmental Challenges". Kegiatan berlangsung pada Rabu, 30 September 2026, pukul 07.30–11.50 WIB di Ruang Multimedia Gedung 4 FT UNS, dengan pembicara Dr. Widhi Himawan, S.Si., M.Si dan Ravi Arkhan Pratama, S.T.',
+    poster: "seminar.webp",
+    registrationLink: "https://uns.id/RegistrasiSNTK2026",
+    speakers: [
+        { name: "Dr. Widhi Himawan, S.Si., M.Si", role: "Dosen Ilmu Lingkungan UNS" },
+        { name: "Ravi Arkhan Pratama, S.T.", role: "Ketua Bidang Riset dan Teknologi Aprobi" },
+    ],
+    moderator: "Firman Asto Putro, S.T., M.T.",
+    contacts: [
+        { name: "Michaela", phone: "+62 888-0288-6919" },
+        { name: "Ikhwan", phone: "+62 812-2707-2820" },
+    ],
 };
 
 export const SPONSORS = {
