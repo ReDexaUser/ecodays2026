@@ -5,34 +5,326 @@ import Footer from "../components/Footer.astro";
 import { SEMINAR } from "../data/config";
 
 const base = import.meta.env.BASE_URL;
+
+const posterImages = import.meta.glob<string>("/src/assets/poster/*.{jpeg,jpg,png,webp,WEBP}", { eager: true, query: "?url", import: "default" });
+const imgSrc = SEMINAR.poster ? posterImages[`/src/assets/poster/${SEMINAR.poster}`] : undefined;
+
+const daicoImages = import.meta.glob<string>("/src/assets/daico/*.{jpeg,jpg,png,PNG,webp,WEBP}", { eager: true, query: "?url", import: "default" });
+const daicoWave = daicoImages["/src/assets/daico/melambai.webp"];
+
+const schedule = [
+  { label: "Tanggal", value: SEMINAR.date },
+  { label: "Waktu", value: SEMINAR.time },
+  { label: "Tempat", value: SEMINAR.venue },
+];
 ---
 
-<BaseLayout title="Seminar Nasional - ECODAYS">
+<BaseLayout title={`${SEMINAR.title} - ECODAYS`} description={SEMINAR.description}>
   <Navbar current="seminar" />
 
-  <section class="pt-28 pb-20 bg-bg min-h-screen">
-    <div class="max-w-6xl mx-auto px-4">
+  <!-- HERO: poster + info -->
+  <section class="pt-28 pb-20 md:pb-28 bg-bg relative overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse at 80% 20%, rgba(245,166,35,0.08) 0%, transparent 60%)"></div>
+    <div class="absolute top-20 left-10 w-72 h-72 bg-white/[0.04] rounded-full blur-3xl float parallax" data-parallax-speed="0.3"></div>
+    <div class="absolute bottom-20 right-10 w-96 h-96 bg-accent/[0.05] rounded-full blur-3xl float-slow parallax" data-parallax-speed="0.2"></div>
+    <div class="absolute top-1/3 right-1/4 w-64 h-64 bg-white/[0.03] rounded-full blur-3xl pulse-glow"></div>
+    {daicoWave && (
+      <img src={daicoWave} alt="" class="absolute bottom-4 right-4 w-40 md:w-52 opacity-10 md:opacity-30 pointer-events-none float-slow select-none" draggable="false" />
+    )}
+
+    <div class="max-w-6xl mx-auto px-4 relative z-10">
       <a
         href={base}
-        class="inline-flex items-center gap-1.5 text-sm text-text/60 hover:text-primary transition-colors mb-8 group fade-in-up"
+        class="inline-flex items-center gap-1.5 text-sm text-text/50 hover:text-accent transition-colors mb-8 group fade-in-up"
       >
-        <svg class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-        </svg>
+        <svg class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
         Kembali ke Beranda
       </a>
 
-      <h1 class="text-4xl md:text-5xl font-bold text-primary fade-in-up">{SEMINAR.title}</h1>
+      <div class="md:flex items-start gap-10 lg:gap-14">
+        <!-- poster -->
+        <div class="md:w-[44%] shrink-0 fade-in-up" style="transition-delay:80ms">
+          {imgSrc ? (
+            <div class="relative group cursor-pointer" id="poster-trigger">
+              <div class="rounded-2xl overflow-hidden shadow-2xl shadow-black/40 ring-1 ring-white/10 transition-all duration-500 group-hover:shadow-accent/20 group-hover:ring-accent/20">
+                <img
+                  src={imgSrc}
+                  alt={`Poster ${SEMINAR.title}`}
+                  id="poster-img"
+                  class="w-full h-auto object-contain transition-transform duration-500 group-hover:scale-[1.03]"
+                  loading="lazy"
+                />
+              </div>
+              <div class="absolute bottom-3 right-3 bg-white/10 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-full border border-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
+                Perbesar
+              </div>
+            </div>
+          ) : (
+            <div class="w-full aspect-[3/4] rounded-2xl glass flex items-center justify-center text-text/30 text-sm">
+              Poster belum tersedia
+            </div>
+          )}
+        </div>
 
-      <div class="mt-10 glass rounded-2xl p-12 md:p-16 text-center fade-in-up" style="transition-delay: 100ms">
-        <svg class="w-20 h-20 text-accent/40 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
-        </svg>
-        <p class="text-3xl md:text-4xl font-bold text-primary">Coming Soon</p>
-        <p class="mt-3 text-text/60 text-lg">Informasi seminar nasional akan diumumkan segera.</p>
+        <!-- info -->
+        <div class="md:w-[56%] mt-8 md:mt-0 fade-in-up" style="transition-delay:180ms">
+          <span class="text-accent text-xs font-bold uppercase tracking-[0.2em]">{SEMINAR.shortName}</span>
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-primary mt-2 leading-[1.02] tracking-tight">{SEMINAR.title}</h1>
+
+          <div class="mt-8 pt-6 border-t border-white/10">
+            <p class="text-xs text-text/40 uppercase tracking-[0.2em] font-bold mb-2">Tema</p>
+            <p class="text-lg md:text-xl text-primary font-semibold leading-relaxed">{SEMINAR.theme}</p>
+          </div>
+
+          <div class="mt-8 grid sm:grid-cols-3 gap-3">
+            {schedule.map((s) => (
+              <div class="glass rounded-2xl p-4 card-shadow">
+                <p class="text-xs text-text/40 uppercase tracking-wider font-bold">{s.label}</p>
+                <p class="text-primary font-semibold mt-1 leading-snug">{s.value}</p>
+              </div>
+            ))}
+          </div>
+
+          <div class="mt-8">
+            <a
+              href={SEMINAR.registrationLink}
+              target="_blank" rel="noopener"
+              class="bg-accent text-white font-semibold px-6 py-3.5 rounded-xl text-center hover:bg-accent/90 hover:shadow-lg hover:shadow-accent/25 transition-all duration-300 hover:-translate-y-0.5 inline-flex items-center justify-center gap-2"
+            >
+              Daftar Sekarang
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="absolute bottom-0 left-0 right-0 overflow-hidden leading-[0] pointer-events-none" style="transform:translateY(1px)">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" class="w-full h-10 md:h-14">
+        <path d="M0,28 C240,56 480,0 720,28 C960,56 1200,0 1440,28 L1440,60 L0,60 Z" fill="#114F25"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- SPEAKERS -->
+  <section class="py-20 bg-surface relative overflow-hidden">
+    <div class="max-w-6xl mx-auto px-4">
+      <p class="text-xs text-text/40 uppercase tracking-[0.2em] font-bold mb-8 fade-in-up">Pembicara</p>
+
+      <div class="grid sm:grid-cols-2 gap-4 fade-in-up" style="transition-delay:100ms">
+        {SEMINAR.speakers.map((s) => (
+          <div class="glass rounded-2xl p-6 card-shadow hover:border-accent/30 transition-all duration-300">
+            <div class="w-12 h-12 rounded-xl bg-accent/15 flex items-center justify-center mb-4">
+              <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            </div>
+            <p class="text-primary font-semibold text-lg leading-snug">{s.name}</p>
+            <p class="text-sm text-text/60 mt-1">{s.role}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-4 glass rounded-2xl p-6 card-shadow fade-in-up" style="transition-delay:180ms">
+        <p class="text-xs text-text/40 uppercase tracking-wider font-bold">Moderator</p>
+        <p class="text-primary font-semibold mt-1">{SEMINAR.moderator}</p>
+      </div>
+    </div>
+
+    <div class="absolute bottom-0 left-0 right-0 overflow-hidden leading-[0] pointer-events-none" style="transform:translateY(1px)">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" class="w-full h-10 md:h-14">
+        <path d="M0,28 C240,56 480,0 720,28 C960,56 1200,0 1440,28 L1440,60 L0,60 Z" fill="#0D4720"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- CONTACTS -->
+  <section class="py-20 bg-bg relative overflow-hidden">
+    <div class="max-w-6xl mx-auto px-4">
+      <p class="text-xs text-text/40 uppercase tracking-[0.2em] font-bold mb-8 fade-in-up">Narahubung</p>
+      <div class="grid sm:grid-cols-2 gap-4 fade-in-up" style="transition-delay:100ms">
+        {SEMINAR.contacts.map((c) => (
+          <a
+            href={`https://wa.me/${c.phone.replace(/[^0-9]/g, "")}`}
+            target="_blank" rel="noopener"
+            class="glass rounded-2xl p-5 flex items-center gap-4 card-shadow hover:border-accent/30 transition-all duration-300 group"
+          >
+            <div class="w-12 h-12 rounded-xl bg-accent/15 flex items-center justify-center shrink-0">
+              <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-primary font-semibold">{c.name}</p>
+              <p class="text-sm text-text/60 group-hover:text-accent transition-colors">{c.phone}</p>
+            </div>
+            <svg class="w-5 h-5 text-text/30 group-hover:text-accent transition-colors shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </a>
+        ))}
       </div>
     </div>
   </section>
 
+  <!-- LIGHTBOX -->
+  <div id="poster-modal" class="fixed inset-0 z-[100] bg-black/90 opacity-0 pointer-events-none transition-opacity duration-300 overflow-hidden" style="backdrop-filter:blur(6px)">
+    <button id="modal-close" class="absolute top-6 right-6 z-20 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm flex items-center justify-center text-white transition-all cursor-pointer" aria-label="Tutup">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+    <div id="zoom-wrapper" class="w-full h-full flex items-center justify-center overflow-hidden">
+      <img
+        id="zoom-img"
+        src={imgSrc}
+        alt={`Poster ${SEMINAR.title}`}
+        class="rounded-lg shadow-2xl select-none"
+        draggable="false"
+        style="max-width:85vw;max-height:85vh;object-fit:contain;transform:scale(1) translate(0,0);cursor:grab"
+      />
+    </div>
+    <div id="zoom-badge" class="absolute bottom-8 left-1/2 -translate-x-1/2 bg-white/15 backdrop-blur-md text-white/90 text-xs font-semibold px-4 py-2 rounded-full opacity-0 transition-opacity duration-300 pointer-events-none select-none border border-white/10">
+      100%
+    </div>
+  </div>
+
   <Footer />
 </BaseLayout>
+
+<script>
+  const thumb = document.getElementById("poster-img");
+  const trigger = document.getElementById("poster-trigger");
+  const modal = document.getElementById("poster-modal");
+  const closeBtn = document.getElementById("modal-close");
+  const zoomImg = document.getElementById("zoom-img");
+  const wrapper = document.getElementById("zoom-wrapper");
+  const badge = document.getElementById("zoom-badge");
+
+  let scale = 1;
+  let translateX = 0;
+  let translateY = 0;
+  let isDragging = false;
+  let dragStartX = 0;
+  let dragStartY = 0;
+  let startTranslateX = 0;
+  let startTranslateY = 0;
+  let isPinching = false;
+  let pinchStartDist = 0;
+  let pinchStartScale = 1;
+  let badgeTimer: ReturnType<typeof setTimeout> | null = null;
+
+  const MIN_Z = 0.25;
+  const MAX_Z = 10;
+
+  function apply(smooth: boolean) {
+    if (!zoomImg) return;
+    zoomImg.style.transition = smooth ? "transform 0.2s" : "none";
+    zoomImg.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+  }
+
+  function badgeShow() {
+    if (!badge) return;
+    badge.textContent = Math.round(scale * 100) + "%";
+    badge.classList.remove("opacity-0");
+    badge.classList.add("opacity-100");
+    if (badgeTimer) clearTimeout(badgeTimer);
+    badgeTimer = setTimeout(() => {
+      badge.classList.remove("opacity-100");
+      badge.classList.add("opacity-0");
+    }, 1200);
+  }
+
+  function openModal() {
+    if (!modal) return;
+    scale = 1;
+    translateX = 0;
+    translateY = 0;
+    apply(false);
+    modal.classList.remove("opacity-0", "pointer-events-none");
+    modal.classList.add("opacity-100", "pointer-events-auto");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModal() {
+    if (!modal) return;
+    modal.classList.remove("opacity-100", "pointer-events-auto");
+    modal.classList.add("opacity-0", "pointer-events-none");
+    document.body.style.overflow = "";
+    if (badge) {
+      badge.classList.add("opacity-0");
+      badge.classList.remove("opacity-100");
+    }
+  }
+
+  trigger?.addEventListener("click", openModal);
+  closeBtn?.addEventListener("click", closeModal);
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
+  wrapper?.addEventListener("click", (e) => { if (e.target === wrapper) closeModal(); });
+
+  wrapper?.addEventListener("wheel", (e) => {
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? -0.1 : 0.1;
+    scale = Math.min(MAX_Z, Math.max(MIN_Z, scale + delta));
+    apply(true);
+    badgeShow();
+  }, { passive: false });
+
+  zoomImg?.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    dragStartX = e.clientX;
+    dragStartY = e.clientY;
+    startTranslateX = translateX;
+    startTranslateY = translateY;
+    zoomImg.style.cursor = "grabbing";
+    zoomImg.style.transition = "none";
+  });
+
+  document.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+    const dx = e.clientX - dragStartX;
+    const dy = e.clientY - dragStartY;
+    translateX = startTranslateX + dx / scale;
+    translateY = startTranslateY + dy / scale;
+    if (zoomImg) zoomImg.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+  });
+
+  document.addEventListener("mouseup", () => {
+    if (isDragging) {
+      isDragging = false;
+      if (zoomImg) zoomImg.style.cursor = "grab";
+    }
+  });
+
+  zoomImg?.addEventListener("dblclick", (e) => {
+    if (scale > 1.3) {
+      scale = 1; translateX = 0; translateY = 0;
+      apply(true); badgeShow();
+    } else {
+      scale = 3;
+      const rect = zoomImg.getBoundingClientRect();
+      const cx = (e.clientX - rect.left) / rect.width;
+      const cy = (e.clientY - rect.top) / rect.height;
+      translateX = -(cx - 0.5) * rect.width * (scale - 1) / scale;
+      translateY = -(cy - 0.5) * rect.height * (scale - 1) / scale;
+      apply(true); badgeShow();
+    }
+  });
+
+  wrapper?.addEventListener("touchstart", (e) => {
+    if (e.touches.length === 2) {
+      isPinching = true;
+      const t1 = e.touches[0];
+      const t2 = e.touches[1];
+      pinchStartDist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+      pinchStartScale = scale;
+    }
+  }, { passive: true });
+
+  wrapper?.addEventListener("touchmove", (e) => {
+    if (isPinching && e.touches.length === 2) {
+      e.preventDefault();
+      const t1 = e.touches[0];
+      const t2 = e.touches[1];
+      const dist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+      const ratio = dist / pinchStartDist;
+      scale = Math.min(MAX_Z, Math.max(MIN_Z, pinchStartScale * ratio));
+      apply(true); badgeShow();
+    }
+  }, { passive: false });
+
+  wrapper?.addEventListener("touchend", () => { isPinching = false; }, { passive: true });
+</script>

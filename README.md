@@ -67,7 +67,7 @@ ecodays2026/
 |---|---|---|
 | `/` | `src/pages/index.astro` | Landing satu halaman: Navbar, Hero, Sponsor, About, Timeline, Lomba, Seminar, Dokumentasi, Footer |
 | `/lomba/<id>` | `src/pages/lomba/[slug].astro` | Detail lomba (dynamic dari `LOMBA[].id`) |
-| `/seminar` | `src/pages/seminar.astro` | Halaman seminar (masih "Coming Soon") |
+| `/seminar` | `src/pages/seminar.astro` | Halaman detail seminar (poster, pembicara, kontak, CTA daftar) |
 | `/404` | `src/pages/404.astro` | Halaman error |
 
 ## Section Halaman Utama
@@ -80,7 +80,7 @@ ecodays2026/
 | **About** | Deskripsi ECODAYS + maskot |
 | **Timeline** | Jadwal acara (desktop & mobile) |
 | **Lomba** | 2 kartu lomba (ENASCO & ICHEDECE) |
-| **Seminar** | Info seminar (placeholder) |
+| **Seminar** | Tema, jadwal, pembicara + CTA daftar (teaser ke `/seminar`) |
 | **Dokumentasi** | Galeri foto dengan lightbox |
 | **Footer** | Kontak, sosial media, copyright |
 
