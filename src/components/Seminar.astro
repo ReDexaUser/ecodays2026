@@ -30,7 +30,7 @@ const schedule = [
 
       <div class="relative grid md:grid-cols-[300px_1fr]">
         <!-- poster -->
-        <div class="relative flex items-center justify-center p-5 md:p-6 bg-white/[0.03] border-b md:border-b-0 md:border-r border-white/10">
+        <div class="relative flex items-center justify-center p-5 md:p-6 bg-white/[0.03] border-b md:border-b-0 md:border-r border-border">
           {posterSrc ? (
             <img
               src={posterSrc}
@@ -52,7 +52,7 @@ const schedule = [
 
           <div class="mt-6 grid sm:grid-cols-3 gap-3">
             {schedule.map((s) => (
-              <div class="rounded-2xl bg-white/5 border border-white/10 p-4 flex items-start gap-3">
+              <div class="rounded-2xl bg-white/5 border border-border p-4 flex items-start gap-3">
                 <span class="w-9 h-9 rounded-lg bg-accent/15 flex items-center justify-center shrink-0">
                   <Icon name={s.icon} class="w-4 h-4 text-accent" />
                 </span>

@@ -19,7 +19,7 @@ import { TIMELINE } from "../data/config";
               <div class="w-[3px] h-5 bg-accent/30" />
               <div class="glass rounded-2xl p-5 w-full text-center hover:-translate-y-1 transition-all duration-300">
                 <p class="text-accent font-bold text-sm">{item.date}</p>
-                <p class="mt-1 text-sm text-text/60">{item.label}</p>
+                <p class="mt-1 text-sm text-muted">{item.label}</p>
               </div>
             </div>
           ))}
@@ -36,7 +36,7 @@ import { TIMELINE } from "../data/config";
           <div class="absolute left-0 top-1.5 w-7 h-7 rounded-full bg-accent text-on-accent flex items-center justify-center text-xs font-bold shadow-lg shadow-accent/30 ring-2 ring-accent/20">{i + 1}</div>
           <div class="glass rounded-2xl p-4">
             <p class="text-accent font-bold text-sm">{item.date}</p>
-            <p class="mt-1 text-sm text-text/60">{item.label}</p>
+            <p class="mt-1 text-sm text-muted">{item.label}</p>
           </div>
         </div>
       ))}
