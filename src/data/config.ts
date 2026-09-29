@@ -16,8 +16,6 @@ export const NAV = [
 
 export const HERO = {
     title: "ECODAYS",
-    cta: "Daftar Sekarang",
-    ctaLink: "#lomba",
 };
 
 export const ABOUT = {
